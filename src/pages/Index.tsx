@@ -1,8 +1,9 @@
 
 import { motion } from "framer-motion";
-import { Wallet, ChevronRight } from "lucide-react";
+import { Wallet } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import FallingImages from "@/components/FallingImages";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
+      <FallingImages />
       <div className="hero-gradient absolute inset-0 opacity-20" />
       
       <div className="container mx-auto px-4 py-24 relative">
@@ -31,10 +33,10 @@ const Index = () => {
             <Wallet size={64} className="mx-auto mb-6 text-primary" />
           </motion.div>
           
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
             Monad DApp Explorer
           </h1>
-          <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-white/80 mb-12 max-w-2xl mx-auto">
             Complete tasks, earn rewards, and explore the Monad ecosystem
           </p>
 
@@ -42,7 +44,7 @@ const Index = () => {
             <Button
               size="lg"
               onClick={connectWallet}
-              className="glass-card hover:bg-primary/20 transition-all duration-300"
+              className="button-3d w-full sm:w-auto glass-card hover:bg-primary/20 transition-all duration-300"
             >
               <img src="/lovable-uploads/4b1e9076-1cbd-4020-a32d-79a11db4e33f.png" alt="MetaMask" className="w-6 h-6 mr-2" />
               Connect with MetaMask
@@ -52,7 +54,7 @@ const Index = () => {
               size="lg"
               variant="outline"
               onClick={connectWallet}
-              className="glass-card hover:bg-primary/20 transition-all duration-300"
+              className="button-3d w-full sm:w-auto glass-card hover:bg-primary/20 transition-all duration-300"
             >
               <img src="/lovable-uploads/bdb04786-9f42-4bf6-abe1-3419d2ed27fc.png" alt="WalletConnect" className="w-6 h-6 mr-2" />
               Connect with WalletConnect
