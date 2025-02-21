@@ -44,7 +44,7 @@ const Index = () => {
               onClick={connectWallet}
               className="glass-card hover:bg-primary/20 transition-all duration-300"
             >
-              <img src="/metamask.svg" alt="MetaMask" className="w-6 h-6 mr-2" />
+              <img src="/lovable-uploads/4b1e9076-1cbd-4020-a32d-79a11db4e33f.png" alt="MetaMask" className="w-6 h-6 mr-2" />
               Connect with MetaMask
             </Button>
 
@@ -54,7 +54,7 @@ const Index = () => {
               onClick={connectWallet}
               className="glass-card hover:bg-primary/20 transition-all duration-300"
             >
-              <img src="/walletconnect.svg" alt="WalletConnect" className="w-6 h-6 mr-2" />
+              <img src="/lovable-uploads/bdb04786-9f42-4bf6-abe1-3419d2ed27fc.png" alt="WalletConnect" className="w-6 h-6 mr-2" />
               Connect with WalletConnect
             </Button>
           </div>
