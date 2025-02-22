@@ -1,15 +1,21 @@
 
 import { motion } from "framer-motion";
 import { Wallet } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import FallingImages from "@/components/FallingImages";
 
 const Index = () => {
-  const navigate = useNavigate();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const connectWallet = () => {
-    navigate("/dashboard");
+    setDialogOpen(true);
   };
 
   return (
@@ -62,6 +68,21 @@ const Index = () => {
           </div>
         </motion.div>
       </div>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-[90vw] w-[1200px] h-[90vh]">
+          <DialogHeader>
+            <DialogTitle>Monad Testnet</DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 min-h-0">
+            <iframe 
+              src="https://testnet.monad.xyz/"
+              className="w-full h-full rounded-lg"
+              style={{ minHeight: "calc(90vh - 80px)" }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

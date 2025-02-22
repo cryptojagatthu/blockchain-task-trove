@@ -12,24 +12,27 @@ const images = [
 
 const FallingImages = () => {
   const createImage = useCallback(() => {
-    const img = document.createElement('img');
-    img.src = images[Math.floor(Math.random() * images.length)];
-    img.className = 'floating-image';
-    img.style.setProperty('--fall-duration', `${5 + Math.random() * 5}s`);
-    img.style.setProperty('--rotation', `${Math.random() * 360}deg`);
-    img.style.left = `${Math.random() * window.innerWidth}px`;
-    img.style.width = '48px';
-    img.style.height = '48px';
-    
-    document.body.appendChild(img);
+    // Create multiple images at once for higher density
+    for (let i = 0; i < 3; i++) {
+      const img = document.createElement('img');
+      img.src = images[Math.floor(Math.random() * images.length)];
+      img.className = 'floating-image';
+      img.style.setProperty('--fall-duration', `${3 + Math.random() * 4}s`);
+      img.style.setProperty('--rotation', `${Math.random() * 360}deg`);
+      img.style.left = `${Math.random() * window.innerWidth}px`;
+      img.style.width = '48px';
+      img.style.height = '48px';
+      
+      document.body.appendChild(img);
 
-    img.addEventListener('animationend', () => {
-      img.remove();
-    });
+      img.addEventListener('animationend', () => {
+        img.remove();
+      });
+    }
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(createImage, 2000);
+    const interval = setInterval(createImage, 1000); // Reduced interval to 1 second
     return () => clearInterval(interval);
   }, [createImage]);
 
