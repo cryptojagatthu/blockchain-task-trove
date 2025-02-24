@@ -130,12 +130,16 @@ const Dashboard = () => {
               </div>
               
               <div className="flex space-x-4">
-                <Button variant="outline" onClick={checkTaskStatus}>
+                <Button 
+                  variant="outline" 
+                  onClick={checkTaskStatus}
+                  className="button-3d button-glow pulse-on-hover"
+                >
                   Check Status
                 </Button>
                 <Button 
                   onClick={() => window.open("http://testnet.monad.xyz", "_blank")}
-                  className="bg-primary"
+                  className="bg-primary button-3d button-glow pulse-on-hover"
                 >
                   Start Task <ExternalLink className="ml-2 h-4 w-4" />
                 </Button>

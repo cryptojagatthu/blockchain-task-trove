@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -34,6 +35,7 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     background: radial-gradient(circle at center, #8B5CF6 0%, #4C1D95 100%);
+    cursor: url('/lovable-uploads/148e7ecb-44a5-45d1-9249-9f1fd1c80cf8.png'), auto;
   }
 }
 
@@ -53,6 +55,7 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
               0 2px 4px -1px rgba(0, 0, 0, 0.06),
               0 0 0 1px rgba(255, 255, 255, 0.1);
+  cursor: pointer !important;
 }
 
 .button-3d:hover {
@@ -64,6 +67,33 @@
 
 .button-3d:active {
   transform: translateY(1px);
+}
+
+/* Enhanced button effects */
+.button-glow {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.button-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(139, 92, 246, 0.4),
+    transparent
+  );
+  transition: all 0.6s ease;
+}
+
+.button-glow:hover::before {
+  left: 100%;
 }
 
 .floating-image {
@@ -87,4 +117,26 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+}
+
+/* Clickable elements hover effect */
+button, a {
+  cursor: url('/lovable-uploads/148e7ecb-44a5-45d1-9249-9f1fd1c80cf8.png'), pointer !important;
+}
+
+/* Fancy button pulse effect */
+@keyframes button-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+  }
+}
+
+.pulse-on-hover:hover {
+  animation: button-pulse 1.5s infinite;
 }
