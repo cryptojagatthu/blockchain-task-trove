@@ -1,35 +1,51 @@
 
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { ExternalLink, Check, Clock, AlertTriangle, Trophy, Star } from "lucide-react";
-import { useState, useEffect } from "react";
+import { ExternalLink, Check, Clock, AlertTriangle, Trophy, Star, Hourglass } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import NFTReward from "@/components/NFTReward";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const Dashboard = () => {
   const [taskStatus, setTaskStatus] = useState<"pending" | "completed" | "failed">("pending");
   const [showNFT, setShowNFT] = useState(false);
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [timeTaken, setTimeTaken] = useState<string | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [showIframe, setShowIframe] = useState(false);
   
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-
-  // Smooth spring animation for the orb
   const springX = useSpring(mouseX, { stiffness: 50, damping: 10 });
   const springY = useSpring(mouseY, { stiffness: 50, damping: 10 });
 
+  // Mouse tracking for stage light effect
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Update motion values based on mouse position
+      setMousePosition({ x: e.clientX, y: e.clientY });
       mouseX.set(e.clientX - window.innerWidth / 2);
-      mouseY.set(e.clientY - 100); // Offset from top
+      mouseY.set(e.clientY - 100);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
 
+  const startTask = () => {
+    setStartTime(new Date());
+    setShowIframe(true);
+  };
+
   const checkTaskStatus = () => {
-    // Simulate checking task status
+    if (startTime) {
+      const endTime = new Date();
+      const diff = endTime.getTime() - startTime.getTime();
+      const minutes = Math.floor(diff / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+      setTimeTaken(`${minutes}m ${seconds}s`);
+    }
+    
     setTimeout(() => {
       setTaskStatus("completed");
       setShowNFT(true);
@@ -40,6 +56,15 @@ const Dashboard = () => {
     <div className="min-h-screen bg-background">
       <div className="hero-gradient absolute inset-0 opacity-10" />
       
+      {/* Stage light effect */}
+      <div 
+        className="stage-light"
+        style={{
+          left: mousePosition.x - 100,
+          top: mousePosition.y - 100,
+        }}
+      />
+
       {/* Animated Orb */}
       <motion.div
         className="absolute left-1/2 top-[100px] w-[150px] h-[150px] pointer-events-none"
@@ -77,9 +102,16 @@ const Dashboard = () => {
         >
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold">Task Dashboard</h1>
-            <div className="flex items-center space-x-2">
-              <Star className="text-yellow-500" />
-              <span className="text-xl font-semibold">100 XP</span>
+            <div className="flex items-center space-x-4">
+              {timeTaken && (
+                <div className="text-sm text-muted-foreground">
+                  Time taken: {timeTaken}
+                </div>
+              )}
+              <div className="flex items-center space-x-2">
+                <Star className="text-yellow-500" />
+                <span className="text-xl font-semibold">100 XP</span>
+              </div>
             </div>
           </div>
 
@@ -101,19 +133,19 @@ const Dashboard = () => {
             </div>
 
             <div className="space-y-4 mb-6">
-              <div className="flex items-center text-muted-foreground">
+              <div className="step-item flex items-center text-muted-foreground">
                 <span className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-3">
                   1
                 </span>
                 Visit Uniswap testnet
               </div>
-              <div className="flex items-center text-muted-foreground">
+              <div className="step-item flex items-center text-muted-foreground">
                 <span className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-3">
                   2
                 </span>
                 Complete a swap transaction
               </div>
-              <div className="flex items-center text-muted-foreground">
+              <div className="step-item flex items-center text-muted-foreground">
                 <span className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-3">
                   3
                 </span>
@@ -123,7 +155,11 @@ const Dashboard = () => {
 
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                {taskStatus === "pending" && <Clock className="text-yellow-500" />}
+                {taskStatus === "pending" && (
+                  <div className="hourglass">
+                    <Hourglass className="text-yellow-500" />
+                  </div>
+                )}
                 {taskStatus === "completed" && <Check className="text-green-500" />}
                 {taskStatus === "failed" && <AlertTriangle className="text-red-500" />}
                 <span className="capitalize">{taskStatus}</span>
@@ -138,7 +174,7 @@ const Dashboard = () => {
                   Check Status
                 </Button>
                 <Button 
-                  onClick={() => window.open("http://testnet.monad.xyz", "_blank")}
+                  onClick={startTask}
                   className="bg-primary button-3d button-glow pulse-on-hover"
                 >
                   Start Task <ExternalLink className="ml-2 h-4 w-4" />
@@ -150,6 +186,16 @@ const Dashboard = () => {
           {showNFT && <NFTReward />}
         </motion.div>
       </div>
+
+      <Dialog open={showIframe} onOpenChange={setShowIframe}>
+        <DialogContent className="max-w-[90vw] w-[1200px] h-[90vh]">
+          <iframe 
+            src="http://testnet.monad.xyz"
+            className="w-full h-full rounded-lg"
+            style={{ minHeight: "calc(90vh - 80px)" }}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
