@@ -1,4 +1,3 @@
-
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { ExternalLink, Check, Clock, AlertTriangle, Trophy, Star, Hourglass } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
@@ -20,10 +19,13 @@ const Dashboard = () => {
   const springX = useSpring(mouseX, { stiffness: 50, damping: 10 });
   const springY = useSpring(mouseY, { stiffness: 50, damping: 10 });
 
-  // Mouse tracking for stage light effect
+  // Enhanced mouse tracking for stage light effect
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      setMousePosition({ 
+        x: e.clientX - 150, // Adjusted for larger stage light
+        y: e.clientY - 150  // Adjusted for larger stage light
+      });
       mouseX.set(e.clientX - window.innerWidth / 2);
       mouseY.set(e.clientY - 100);
     };
@@ -56,12 +58,13 @@ const Dashboard = () => {
     <div className="min-h-screen bg-background">
       <div className="hero-gradient absolute inset-0 opacity-10" />
       
-      {/* Stage light effect */}
+      {/* Stage light effect with cartoon background */}
       <div 
         className="stage-light"
         style={{
-          left: mousePosition.x - 100,
-          top: mousePosition.y - 100,
+          left: mousePosition.x,
+          top: mousePosition.y,
+          backgroundPosition: `${-mousePosition.x}px ${-mousePosition.y}px`,
         }}
       />
 
