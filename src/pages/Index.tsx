@@ -1,7 +1,7 @@
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Wallet } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,6 +13,23 @@ import FallingImages from "@/components/FallingImages";
 
 const Index = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Smooth spring animation for the orb
+  const springX = useSpring(mouseX, { stiffness: 50, damping: 10 });
+  const springY = useSpring(mouseY, { stiffness: 50, damping: 10 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // Update motion values based on mouse position
+      mouseX.set(e.clientX - window.innerWidth / 2);
+      mouseY.set(e.clientY - 100); // Offset from top
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
 
   const connectWallet = () => {
     setDialogOpen(true);
@@ -22,6 +39,35 @@ const Index = () => {
     <div className="min-h-screen relative overflow-hidden">
       <FallingImages />
       <div className="hero-gradient absolute inset-0 opacity-20" />
+      
+      {/* Animated Orb */}
+      <motion.div
+        className="absolute left-1/2 top-[100px] w-[150px] h-[150px] pointer-events-none"
+        style={{
+          x: springX,
+          y: springY,
+          background: "radial-gradient(circle at center, rgba(139, 92, 246, 0.5) 0%, rgba(76, 29, 149, 0) 70%)",
+          filter: "blur(20px)",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <motion.div
+          className="absolute inset-0"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.5, 0.8, 0.5],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          style={{
+            background: "radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, rgba(76, 29, 149, 0) 70%)",
+            filter: "blur(15px)",
+          }}
+        />
+      </motion.div>
       
       <div className="container mx-auto px-4 py-24 relative">
         <motion.div
