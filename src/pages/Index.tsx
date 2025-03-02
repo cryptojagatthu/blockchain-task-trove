@@ -8,13 +8,16 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
+import { useNavigate } from "react-router-dom";
 import FallingImages from "@/components/FallingImages";
 
 const Index = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const navigate = useNavigate();
 
   // Smooth spring animation for the orb
   const springX = useSpring(mouseX, { stiffness: 50, damping: 10 });
@@ -32,7 +35,7 @@ const Index = () => {
   }, [mouseX, mouseY]);
 
   const connectWallet = () => {
-    setDialogOpen(true);
+    navigate("/dashboard");
   };
 
   return (
@@ -119,6 +122,9 @@ const Index = () => {
         <DialogContent className="max-w-[90vw] w-[1200px] h-[90vh]">
           <DialogHeader>
             <DialogTitle>Monad Testnet</DialogTitle>
+            <DialogDescription>
+              Explore and interact with the Monad testnet
+            </DialogDescription>
           </DialogHeader>
           <div className="flex-1 min-h-0">
             <iframe 
