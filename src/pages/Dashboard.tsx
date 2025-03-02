@@ -194,10 +194,12 @@ const Dashboard = () => {
             Complete a swap on the Monad testnet to earn your reward
           </DialogDescription>
           <iframe 
-            src="http://testnet.monad.xyz"
+            src="https://testnet.monad.xyz"
             className="w-full h-full rounded-lg"
             style={{ minHeight: "calc(90vh - 120px)" }}
             title="Monad Testnet"
+            sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+            referrerPolicy="no-referrer"
           />
         </DialogContent>
       </Dialog>
