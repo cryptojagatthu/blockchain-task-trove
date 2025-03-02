@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import NFTReward from "@/components/NFTReward";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const Dashboard = () => {
   const [taskStatus, setTaskStatus] = useState<"pending" | "completed" | "failed">("pending");
@@ -19,12 +19,11 @@ const Dashboard = () => {
   const springX = useSpring(mouseX, { stiffness: 50, damping: 10 });
   const springY = useSpring(mouseY, { stiffness: 50, damping: 10 });
 
-  // Enhanced mouse tracking for stage light effect
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ 
-        x: e.clientX - 150, // Adjusted for larger stage light
-        y: e.clientY - 150  // Adjusted for larger stage light
+        x: e.clientX - 150, 
+        y: e.clientY - 150 
       });
       mouseX.set(e.clientX - window.innerWidth / 2);
       mouseY.set(e.clientY - 100);
@@ -58,7 +57,6 @@ const Dashboard = () => {
     <div className="min-h-screen bg-background">
       <div className="hero-gradient absolute inset-0 opacity-10" />
       
-      {/* Stage light effect with cartoon background */}
       <div 
         className="stage-light"
         style={{
@@ -68,7 +66,6 @@ const Dashboard = () => {
         }}
       />
 
-      {/* Animated Orb */}
       <motion.div
         className="absolute left-1/2 top-[100px] w-[150px] h-[150px] pointer-events-none"
         style={{
@@ -192,10 +189,15 @@ const Dashboard = () => {
 
       <Dialog open={showIframe} onOpenChange={setShowIframe}>
         <DialogContent className="max-w-[90vw] w-[1200px] h-[90vh]">
+          <DialogTitle>Monad Testnet</DialogTitle>
+          <DialogDescription>
+            Complete a swap on the Monad testnet to earn your reward
+          </DialogDescription>
           <iframe 
             src="http://testnet.monad.xyz"
             className="w-full h-full rounded-lg"
-            style={{ minHeight: "calc(90vh - 80px)" }}
+            style={{ minHeight: "calc(90vh - 120px)" }}
+            title="Monad Testnet"
           />
         </DialogContent>
       </Dialog>
